@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empire Cart - Global Marketplace View</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .shop-banner { height: 110px; background: linear-gradient(135deg, var(--brand-purple), #2e1065); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+        .app-screen { display: none; }
+        .app-screen:first-of-type { display: block; }
+        
+        /* Unified Mobile Wallet Selector Styling */
+        .momo-box { 
+            padding: 12px 16px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+            cursor: pointer; 
+            margin-bottom: 14px; 
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
+            border: 2px solid #e2e8f0;
+            background: #ffffff;
+        }
+        .momo-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+        .momo-box input { 
+            scale: 1.4; 
+            cursor: pointer;
+            margin-right: 4px;
+        }
+        
+        /* Provider-Specific Selection Highlights */
+        .momo-box.momo-mtn:has(input:checked) {
+            border-color: #ffcc00;
+            background-color: #fffdf2;
+            box-shadow: 0 0 0 1px #ffcc00;
+        }
+        .momo-box.momo-airtel:has(input:checked) {
+            border-color: #ff1400;
+            background-color: #fff5f5;
+            box-shadow: 0 0 0 1px #ff1400;
+        }
+        .momo-box.momo-zamtel:has(input:checked) {
+            border-color: #009639;
+            background-color: #f2fbf5;
+            box-shadow: 0 0 0 1px #009639;
+        }
+
+        /* Fixed Sizing Frame to make all logos sit uniformly */
+        .momo-logo-wrapper {
+            width: 80px;
+            height: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Smart Scaling to prevent distortion */
+        .momo-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .momo-box .provider-text {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-weight: 700;
+            color: #333333;
+            font-size: 15px;
+        }
+
+        /* Secondary Outline Button Sizing Hierarchy */
+        .btn-secondary-outline {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted) !important;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .btn-secondary-outline:hover {
+            background: #f1f5f9;
+            border-color: var(--text-dark);
+            color: var(--text-dark) !important;
+        }
+        .btn-back {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="brand-wrapper">
+            <img src="empire cart logo.jpg" class="brand-logo-img" alt="Empire Cart">
+            <div class="brand-text">Empire<span>Cart</span></div>
+        </a>
+        <nav class="nav-links">
+            <a href="javascript:void(0)" onclick="openScreen('screen-listing')">Stores Directory</a>
+            <a href="javascript:void(0)" onclick="openScreen('screen-cart')" class="btn-gold" style="color: white !important;">Cart Summary (<span id="cart-qty">1</span>)</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <!-- SCREEN A: Registered Store Listings -->
+        <section id="screen-listing" class="app-screen">
+            <h2 style="margin-bottom: 4px;">Registered Business Directory</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Browse isolated merchant entities running inside the ecosystem.</p>
+            <div style="margin-bottom: 25px;"><input type="text" placeholder="🔍 Search / filter stores..." disabled style="width: 100%; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-light); background: #f1f5f9; cursor: not-allowed;"></div>
+            
+            <div class="grid-3">
+                <div class="ui-card" style="padding: 0; overflow: hidden; cursor: pointer;" onclick="loadStore('Copperbelt Tech Hub', 'Electronics & Tools', 'Direct trade line for premium compute parts.')">
+                    <div class="shop-banner"></div>
+                    <div style="padding: 20px;">
+                        <h3>Copperbelt Tech Hub</h3>
+                        <span style="color: var(--brand-gold); font-size: 12px; font-weight: bold; text-transform: uppercase;">Electronics & Tools</span>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-top: 8px;">Direct trade line for premium compute parts.</p>
+                        <button class="btn-purple" style="width: 100%; margin-top: 15px; padding: 8px;">Enter Store</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN B: Store Page -->
+        <section id="screen-shop" class="app-screen">
+            <button class="btn-secondary-outline btn-back" onclick="openScreen('screen-listing')">← Back to Directory</button>
+            <div class="ui-card" style="border-left: 6px solid var(--brand-purple); margin-bottom: 30px;">
+                <h2 id="store-title-field">Store Header</h2>
+                <div id="store-cat-field" style="color: var(--brand-gold); font-weight: bold; font-size: 13px; margin: 4px 0;">Category</div>
+                <p id="store-info-field" style="color: var(--text-muted); font-size: 14px;">Store Branding Information Metadata.</p>
+            </div>
+            <h3>Product Listings</h3>
+            <div class="grid-3" style="margin-top: 15px;">
+                <div class="ui-card" style="cursor: pointer;" onclick="loadProduct('Wireless Compute Controller', '650.00', 'High frequency dual channel remote input unit optimized for development rigs.')">
+                    <h4>Wireless Compute Controller</h4>
+                    <div style="color: var(--brand-gold); font-weight: bold; margin: 10px 0; font-size: 18px;">ZMW 650.00</div>
+                    <button class="btn-gold" style="width: 100%; padding: 6px; font-size: 12px;">View Details</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN C: Product Page -->
+        <section id="screen-product" class="app-screen">
+            <button class="btn-secondary-outline btn-back" onclick="openScreen('screen-shop')">← Back to Inventory</button>
+            <div class="ui-card" style="max-width: 600px; margin: 0 auto;">
+                <h2 id="prod-title-field">Item Title</h2>
+                <div id="prod-price-field" style="color: var(--brand-purple); font-size: 24px; font-weight: bold; margin: 15px 0;">ZMW 0.00</div>
+                <div class="form-group">
+                    <label style="color: var(--text-muted);">Product Details</label>
+                    <p id="prod-desc-field" style="font-size: 15px; line-height: 1.6;">Technical item metrics configuration scope details.</p>
+                </div>
+                <button class="btn-gold" style="width: 100%; padding: 12px; margin-top: 15px;" onclick="commitCartAdd()">Add to cart</button>
+            </div>
+        </section>
+
+        <!-- SCREEN D: Cart Page -->
+        <section id="screen-cart" class="app-screen">
+            <button class="btn-secondary-outline btn-back" onclick="openScreen('screen-shop')">← Continue Shopping</button>
+            <h2>Your Cart</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Your pending items details separated by store origin context metrics.</p>
+            <div class="ui-card" style="padding: 0; overflow: hidden; margin-bottom: 25px;">
+                <div style="background: #f1f5f9; padding: 10px 20px; font-weight: bold; font-size: 14px; border-bottom: 1px solid var(--border-light); color: var(--brand-purple);">Store Sandbox: Copperbelt Tech Hub</div>
+                <div style="padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div><h4>Wireless Compute Controller</h4><strong>ZMW 650.00</strong></div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label style="font-size: 13px; font-weight: bold;">Quantity:</label>
+                        <input type="number" value="1" min="1" style="width: 60px; padding: 6px; text-align: center;">
+                        <button class="btn-secondary-outline" style="border-color: #ef4444; color: #ef4444 !important; padding: 6px 12px; font-size:12px;" onclick="alert('Item configuration array popped.')">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: right;"><button class="btn-purple" onclick="openScreen('screen-checkout')">Proceed to Checkout →</button></div>
+        </section>
+
+        <!-- SCREEN E: Checkout Page -->
+        <section id="screen-checkout" class="app-screen">
+            <button class="btn-secondary-outline btn-back" onclick="openScreen('screen-cart')">← Back to Cart</button>
+            <h2>Checkout Processing Terminal</h2>
+            <div class="grid-2" style="margin-top: 20px;">
+                <div class="form-card">
+                    <h3 style="margin-bottom: 15px; color: var(--brand-purple);">Fulfillment Delivery Details</h3>
+                    <div class="form-group"><label>Province Location</label><input type="text" value="Copperbelt Province" required></div>
+                    <div class="form-group"><label>Physical Delivery Address</label><textarea rows="3" placeholder="Nearest building or road node markers" required></textarea></div>
+                </div>
+                <div class="form-card">
+                    <h3 style="margin-bottom: 15px; color: var(--text-dark);">Select Mobile Wallet</h3>
+                    
+                    <!-- MTN Option -->
+                    <label class="momo-box momo-mtn">
+                        <input type="radio" name="momo" checked onclick="updateMoMoPlaceholder('mtn')"> 
+                        <div class="momo-logo-wrapper">
+                            <img src="MTN logo.jpg" class="momo-logo-img" alt="MTN Money">
+                        </div>
+                        <span class="provider-text">MTN Mobile Money</span>
+                    </label>
+                    
+                    <!-- Airtel Option -->
+                    <label class="momo-box momo-airtel">
+                        <input type="radio" name="momo" onclick="updateMoMoPlaceholder('airtel')"> 
+                        <div class="momo-logo-wrapper">
+                            <img src="AIRTEL logo.png" class="momo-logo-img" alt="Airtel Money">
+                        </div>
+                        <span class="provider-text">Airtel Money</span>
+                    </label>
+                    
+                    <!-- Zamtel Option -->
+                    <label class="momo-box momo-zamtel">
+                        <input type="radio" name="momo" onclick="updateMoMoPlaceholder('zamtel')"> 
+                        <div class="momo-logo-wrapper">
+                            <img src="ZAMTEL logo.jpg" class="momo-logo-img" alt="Zamtel Kwacha">
+                        </div>
+                        <span class="provider-text">Zamtel Kwacha</span>
+                    </label>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Wallet Account Line</label>
+                        <input type="tel" id="wallet-phone" placeholder="e.g., 096XXXXXXX or 076XXXXXXX" required>
+                    </div>
+                    <button id="pay-btn" class="btn-purple" style="width: 100%; padding: 12px; background: #16a34a;" onclick="simulatePaymentProcess()">Confirm Order & Pay</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN F: Order Success Page -->
+        <section id="screen-success" class="app-screen" style="text-align: center; padding: 50px 20px;">
+            <div style="font-size: 60px; color: #16a34a;">✓</div>
+            <h2>Order Success Page</h2>
+            <p style="color: var(--text-muted); margin: 10px 0 20px 0;">Order confirmation message: Your automated payment push request has initialized transaction parameters.</p>
+            <div class="ui-card" style="display: inline-block; padding: 15px 30px; background: white;">
+                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: bold; letter-spacing: 0.5px;">System Order tracking ID</span>
+                <div style="font-size: 22px; font-family: monospace; font-weight: bold; color: var(--brand-purple); margin-top: 4px;">EMPIRE-99341-ZM</div>
+            </div>
+            <div style="margin-top: 30px;"><button class="btn-gold" onclick="openScreen('screen-listing')">Return to Store Listing</button></div>
+        </section>
+
+    </main>
+
+    <script>
+        function openScreen(id) {
+            document.querySelectorAll('.app-screen').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            window.scrollTo(0,0);
+        }
+        function loadStore(title, cat, info) {
+            document.getElementById('store-title-field').innerText = title;
+            document.getElementById('store-cat-field').innerText = cat;
+            document.getElementById('store-info-field').innerText = info;
+            openScreen('screen-shop');
+        }
+        function loadProduct(title, price, desc) {
+            document.getElementById('prod-title-field').innerText = title;
+            document.getElementById('prod-price-field').innerText = 'ZMW ' + price;
+            document.getElementById('prod-desc-field').innerText = desc;
+            openScreen('screen-product');
+        }
+        function commitCartAdd() {
+            alert('Item state added to grouped multi-tenant checkout array.');
+            openScreen('screen-cart');
+        }
+        function updateMoMoPlaceholder(provider) {
+            const input = document.getElementById('wallet-phone');
+            if (provider === 'mtn') {
+                input.placeholder = "e.g., 096XXXXXXX or 076XXXXXXX";
+            } else if (provider === 'airtel') {
+                input.placeholder = "e.g., 097XXXXXXX or 077XXXXXXX";
+            } else if (provider === 'zamtel') {
+                input.placeholder = "e.g., 095XXXXXXX or 075XXXXXXX";
+            }
+        }
+        function simulatePaymentProcess() {
+            const payBtn = document.getElementById('pay-btn');
+            const originalText = payBtn.innerText;
+            
+            payBtn.innerText = "Processing USSD Push Prompt...";
+            payBtn.style.background = "#d97706"; 
+            payBtn.disabled = true;
+            
+            setTimeout(() => {
+                payBtn.innerText = originalText;
+                payBtn.style.background = "#16a34a";
+                payBtn.disabled = false;
+                openScreen('screen-success');
+            }, 2000); 
+        }
+    </script>
+</body>
+</html>
